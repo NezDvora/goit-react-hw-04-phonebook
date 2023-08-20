@@ -17,8 +17,21 @@ export class App extends Component {
     number: '',
   };
 
+  componentDidMount() {
+    const localContacts = localStorage.getItem('contacts');
+    if (localContacts) this.setState({ contacts : JSON.parse(localContacts)})
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    } 
+  }
+
+
   addContact = (id, name, number) => {
     console.log(this.state.contacts);
+
     if (
       !this.state.contacts.some(
         elem => elem.name.toLowerCase() === name.toLowerCase()
